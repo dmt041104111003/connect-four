@@ -46,7 +46,7 @@
 
         @media (min-width: 768px) {
             .container {
-                grid-template-columns: 2fr 1fr;
+                grid-template-columns: 1fr 1fr;
             }
         }
 
@@ -214,6 +214,8 @@
             padding: 20px;
             height: fit-content;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: 80vh;
         }
 
         .instructions-header {
@@ -316,6 +318,208 @@
             height: 24px;
         }
 
+        .illustration {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .illustration-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .board-illustration {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            background: var(--primary-color);
+            padding: 8px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .cell-illustration {
+            aspect-ratio: 1/1;
+            background: var(--card-bg);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .cell-illustration.red {
+            background: var(--red-piece);
+        }
+
+        .cell-illustration.yellow {
+            background: var(--yellow-piece);
+        }
+
+        .cell-illustration.highlight {
+            box-shadow: 0 0 0 2px white;
+        }
+
+        .arrow-animation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .arrow-down {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid var(--red-piece);
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        .win-pattern {
+            margin: 20px 0;
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .pattern-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .pattern-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .pattern-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            background: var(--primary-color);
+            padding: 8px;
+            border-radius: 8px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .horizontal-pattern {
+            grid-template-rows: repeat(1, 1fr);
+        }
+
+        .vertical-pattern {
+            grid-template-rows: repeat(4, 1fr);
+            grid-template-columns: repeat(1, 1fr);
+        }
+
+        .diagonal-up-pattern, .diagonal-down-pattern {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 4px;
+            background: var(--primary-color);
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .diagonal-cell {
+            aspect-ratio: 1/1;
+            background: var(--card-bg);
+            border-radius: 50%;
+        }
+
+        .diagonal-cell.red {
+            background: var(--red-piece);
+        }
+
+        .strategy-illustration {
+            margin: 20px 0;
+        }
+
+        .strategy-board {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            gap: 4px;
+            background: var(--primary-color);
+            padding: 8px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        .strategy-cell {
+            aspect-ratio: 1/1;
+            background: var(--card-bg);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .strategy-cell.red {
+            background: var(--red-piece);
+        }
+
+        .strategy-cell.yellow {
+            background: var(--yellow-piece);
+        }
+
+        .strategy-cell.next-move {
+            background: var(--card-bg);
+            position: relative;
+        }
+
+        .strategy-cell.next-move::after {
+            content: '?';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .strategy-cell.winning-move {
+            background: var(--card-bg);
+            position: relative;
+        }
+
+        .strategy-cell.winning-move::after {
+            content: '!';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--red-piece);
+        }
+
+        .strategy-description {
+            margin-top: 15px;
+            color: var(--text-secondary);
+        }
+
         @media (max-width: 600px) {
             .board {
                 gap: 5px;
@@ -324,6 +528,10 @@
 
             h1 {
                 font-size: 2rem;
+            }
+
+            .pattern-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -403,17 +611,82 @@
                     <line x1="12" y1="16" x2="12" y2="12"></line>
                     <line x1="12" y1="8" x2="12.01" y2="8"></line>
                 </svg>
-                <h2>Hướng dẫn</h2>
+                <h2>Hướng dẫn chi tiết</h2>
             </div>
 
             <div class="instructions-tabs">
-                <div class="tab active" data-tab="rules">Luật chơi</div>
+                <div class="tab active" data-tab="rules">Cách chơi</div>
+                <div class="tab" data-tab="patterns">Cách thắng</div>
                 <div class="tab" data-tab="strategy">Chiến thuật</div>
             </div>
 
             <div class="tab-content active" id="rules">
                 <h3>Mục tiêu</h3>
                 <p>Nối 4 quân liên tiếp theo hàng ngang, dọc hoặc chéo trước khi AI làm được điều đó.</p>
+                
+                <div class="illustration">
+                    <h4 class="illustration-title">Cách thả quân</h4>
+                    <p>Quân cờ sẽ rơi xuống vị trí thấp nhất trong cột bạn chọn, giống như có trọng lực.</p>
+                    
+                    <div class="arrow-animation">
+                        <div class="player-color red-player" style="margin-bottom: 5px;"></div>
+                        <div class="arrow-down"></div>
+                    </div>
+                    
+                    <div class="board-illustration">
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration highlight"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration yellow"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration yellow"></div>
+                        <div class="cell-illustration yellow"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration yellow"></div>
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration yellow"></div>
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration yellow"></div>
+                    </div>
+                    
+                    <p style="margin-top: 10px; text-align: center; color: var(--text-secondary);">
+                        Khi bạn click vào cột 4, quân cờ đỏ sẽ rơi xuống vị trí được đánh dấu
+                    </p>
+                </div>
                 
                 <h3 style="margin-top: 15px;">Người chơi</h3>
                 <div class="player-info">
@@ -433,23 +706,468 @@
 
                 <h3 style="margin-top: 15px;">Luật chơi</h3>
                 <ul class="instructions-list">
-                    <li>Click vào một cột để thả quân Đỏ vào ô trống thấp nhất trong cột đó.</li>
-                    <li>AI sẽ tự động thả quân Vàng sau lượt của bạn.</li>
-                    <li>Trò chơi kết thúc khi một bên nối được 4 quân liên tiếp hoặc bảng đầy (hòa).</li>
+                    <li>Bạn và AI lần lượt thả quân vào bảng 7x6.</li>
+                    <li>Quân cờ sẽ rơi xuống vị trí thấp nhất trong cột bạn chọn.</li>
+                    <li>Bạn không thể đặt quân vào vị trí bất kỳ - quân cờ phải rơi từ trên xuống.</li>
+                    <li>Người đầu tiên tạo được 4 quân liên tiếp theo hàng ngang, dọc hoặc chéo sẽ thắng.</li>
+                    <li>Nếu bảng đầy mà không ai thắng, trò chơi sẽ kết thúc với kết quả hòa.</li>
                 </ul>
+                
+                <div class="illustration">
+                    <h4 class="illustration-title">Ví dụ về lượt đi</h4>
+                    <div style="display: flex; justify-content: space-around; margin: 15px 0;">
+                        <div style="text-align: center;">
+                            <p style="margin-bottom: 5px;">Bước 1: Bạn chọn cột</p>
+                            <div class="board-illustration" style="max-width: 120px;">
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration highlight"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <p style="margin-bottom: 5px;">Bước 2: Quân rơi xuống</p>
+                            <div class="board-illustration" style="max-width: 120px;">
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration red"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <p style="margin-bottom: 5px;">Bước 3: Lượt của AI</p>
+                            <div class="board-illustration" style="max-width: 120px;">
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration yellow"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration red"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                                <div class="cell-illustration"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="patterns">
+                <h3>Cách thắng</h3>
+                <p>Để thắng, bạn cần tạo được 4 quân liên tiếp theo một trong các hướng sau:</p>
+                
+                <div class="pattern-grid">
+                    <div class="pattern-item">
+                        <h4 class="pattern-title">Ngang</h4>
+                        <div class="pattern-board horizontal-pattern">
+                            <div class="cell-illustration red"></div>
+                            <div class="cell-illustration red"></div>
+                            <div class="cell-illustration red"></div>
+                            <div class="cell-illustration red"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-item">
+                        <h4 class="pattern-title">Dọc</h4>
+                        <div class="pattern-board vertical-pattern">
+                            <div class="cell-illustration red"></div>
+                            <div class="cell-illustration red"></div>
+                            <div class="cell-illustration red"></div>
+                            <div class="cell-illustration red"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-item">
+                        <h4 class="pattern-title">Chéo lên</h4>
+                        <div class="diagonal-up-pattern">
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell red"></div>
+                            
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell red"></div>
+                            <div class="diagonal-cell"></div>
+                            
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell red"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                            
+                            <div class="diagonal-cell red"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-item">
+                        <h4 class="pattern-title">Chéo xuống</h4>
+                        <div class="diagonal-down-pattern">
+                            <div class="diagonal-cell red"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                            
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell red"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                            
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell red"></div>
+                            <div class="diagonal-cell"></div>
+                            
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell"></div>
+                            <div class="diagonal-cell red"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="illustration">
+                    <h4 class="illustration-title">Ví dụ về trận thắng</h4>
+                    <div class="board-illustration">
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                        
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration yellow"></div>
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration"></div>
+                        
+                        <div class="cell-illustration yellow"></div>
+                        <div class="cell-illustration yellow"></div>
+                        <div class="cell-illustration yellow"></div>
+                        <div class="cell-illustration red"></div>
+                        <div class="cell-illustration yellow"></div>
+                        <div class="cell-illustration"></div>
+                        <div class="cell-illustration"></div>
+                    </div>
+                    <p style="margin-top: 10px; text-align: center; color: var(--text-secondary);">
+                        Người chơi đỏ thắng với 4 quân liên tiếp theo hàng ngang
+                    </p>
+                </div>
             </div>
 
             <div class="tab-content" id="strategy">
-                <h3>Mẹo chiến thắng</h3>
-                <ul class="instructions-list">
-                    <li>Kiểm soát cột giữa - đây là vị trí quan trọng nhất trên bàn cờ.</li>
-                    <li>Tạo mối đe dọa kép - tạo ra hai đường có thể thắng cùng lúc.</li>
-                    <li>Chặn đối thủ khi họ có 3 quân liên tiếp.</li>
-                    <li>Suy nghĩ trước 2-3 bước để lập chiến lược.</li>
-                </ul>
-
-                <h3 style="margin-top: 15px;">Về AI</h3>
+                <h3>Chiến thuật cơ bản</h3>
+                <p>Dưới đây là một số chiến thuật giúp bạn chiến thắng:</p>
+                
+                <div class="strategy-illustration">
+                    <h4 class="illustration-title">1. Kiểm soát cột giữa</h4>
+                    <div class="strategy-board">
+                        <!-- Row 1 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 2 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 3 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell red"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 4 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell red"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 5 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell yellow"></div>
+                        <div class="strategy-cell red"></div>
+                        <div class="strategy-cell yellow"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 6 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell yellow"></div>
+                        <div class="strategy-cell red"></div>
+                        <div class="strategy-cell red"></div>
+                        <div class="strategy-cell yellow"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                    </div>
+                    <p class="strategy-description">
+                        Cột giữa (cột 4) cho phép bạn tạo được nhiều đường thắng nhất. Ưu tiên đặt quân ở cột này.
+                    </p>
+                </div>
+                
+                <div class="strategy-illustration">
+                    <h4 class="illustration-title">2. Tạo mối đe dọa kép</h4>
+                    <div class="strategy-board">
+                        <!-- Row 1 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 2 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 3 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 4 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell winning-move"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 5 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell red"></div>
+                        <div class="strategy-cell yellow"></div>
+                        <div class="strategy-cell red"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 6 -->
+                        <div class="strategy-cell yellow"></div>
+                        <div class="strategy-cell yellow"></div>
+                        <div class="strategy-cell red"></div>
+                        <div class="strategy-cell red"></div>
+                        <div class="strategy-cell yellow"></div>
+                        <div class="strategy-cell red"></div>
+                        <div class="strategy-cell"></div>
+                    </div>
+                    <p class="strategy-description">
+                        Tạo ra tình huống đối thủ không thể chặn cả hai đường thắng cùng lúc. Trong ví dụ này, nếu đặt quân đỏ vào vị trí đánh dấu "!", bạn sẽ có hai cơ hội để thắng ở lượt tiếp theo.
+                    </p>
+                </div>
+                
+                <div class="strategy-illustration">
+                    <h4 class="illustration-title">3. Chặn đối thủ</h4>
+                    <div class="strategy-board">
+                        <!-- Row 1 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 2 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 3 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 4 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 5 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell next-move"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        
+                        <!-- Row 6 -->
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell"></div>
+                        <div class="strategy-cell yellow"></div>
+                        <div class="strategy-cell yellow"></div>
+                        <div class="strategy-cell yellow"></div>
+                        <div class="strategy-cell red"></div>
+                        <div class="strategy-cell"></div>
+                    </div>
+                    <p class="strategy-description">
+                        Luôn chú ý khi đối thủ có 3 quân liên tiếp. Trong ví dụ này, bạn cần đặt quân đỏ vào vị trí đánh dấu "?" để chặn AI thắng ở lượt tiếp theo.
+                    </p>
+                </div>
+                
+                <h3 style="margin-top: 20px;">Về AI</h3>
                 <p>AI trong trò chơi này sử dụng thuật toán Alpha-Beta Pruning, một kỹ thuật tìm kiếm nâng cao giúp AI đưa ra quyết định tối ưu bằng cách dự đoán nhiều bước đi phía trước.</p>
+                <p style="margin-top: 10px;">AI sẽ:</p>
+                <ul class="instructions-list">
+                    <li>Tìm kiếm cơ hội để tạo 4 quân liên tiếp</li>
+                    <li>Chặn bạn khi bạn có 3 quân liên tiếp</li>
+                    <li>Đánh giá nhiều nước đi có thể và chọn nước đi tốt nhất</li>
+                    <li>Cố gắng kiểm soát vị trí trung tâm</li>
+                </ul>
             </div>
         </div>
     </div>
